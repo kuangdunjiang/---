@@ -1,0 +1,71 @@
+package excel;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+
+public class ExcelTest {
+
+  public static void main(String[] args) throws IOException {
+		//注意点是：在行上是以索引为0开始的，在列上是以索引为1开始的。。。还有一点是
+		//这边是读表
+		FileInputStream fileInputStream = new FileInputStream("g:/test.xls");
+		Workbook workbook = new HSSFWorkbook(fileInputStream);
+		Sheet sheet = workbook.getSheetAt(0);
+		for (int i = 0; i <= sheet.getLastRowNum(); i++) {
+			Row r = sheet.getRow(i);
+			for (int j = 0; j < r.getLastCellNum(); j++) {
+				Cell cell = r.getCell(j);
+				if (cell != null) {
+					if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
+						System.out.print(cell.getStringCellValue()+"  ");
+					}else if (cell.getCellType() == Cell.CELL_TYPE_BOOLEAN) {
+						System.out.print(cell.getBooleanCellValue()+" ");
+					}else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+						System.out.print(cell.getNumericCellValue()+"  ");
+					}
+				}
+			}
+			System.out.println();
+		}
+		
+		
+		//这边是创建一个表
+		/*FileOutputStream fileOutputStream = new FileOutputStream("g:test.xls");
+		//创建一个表
+		Workbook workbook = new HSSFWorkbook();
+		//在表中创一个标签页
+		Sheet sheet = workbook.createSheet("测试页");
+		//弄一行
+		Row row = sheet.createRow(0);
+		Cell c1 = row.createCell(0);
+		Cell c2 = row.createCell(1);
+		Cell c3 = row.createCell(2);
+		
+		c1.setCellValue("学号");
+		c2.setCellValue("姓名");
+		c3.setCellValue("成绩");
+		
+		
+		
+		for (int i = 1; i < 10; i++) {
+			Row r1 = sheet.createRow(i);
+			r1.createCell(0).setCellValue(i+"");
+			r1.createCell(1).setCellValue("china"+i);
+			r1.createCell(2).setCellValue("6"+i);
+		}
+		
+		workbook.write(fileOutputStream);
+		fileOutputStream.flush();
+		fileOutputStream.close();
+		
+		
+		*/
+		
+	}
+	
+}
